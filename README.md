@@ -25,6 +25,19 @@ Før du åbner en Excel-fil, skal følgende være klar:
 - Excel-filen skal være gemt i en lokal mappe.
 - Makroer skal være tilladt.
 
+## Vigtig indstilling i IBM 3270
+
+IBM Personal Communications skal bruge den korrekte tegntabel, så scripts kan
+læse danske tegn fra 3270-systemet.
+
+1. Åbn menuen `Indstillinger` i IBM Personal Communications.
+2. Vælg `API...`.
+3. Kontrollér, at `PC-tegntabel` er sat til `1252`.
+4. Vælg `OK`.
+
+Hvis en anden PC-tegntabel anvendes, kan scripts fortolke tegn fra
+3270-systemet forkert. Det gælder især danske tegn som `Æ`, `Ø` og `Å`.
+
 ## Hvis Windows blokerer filen
 
 Hvis filen er hentet fra GitHub, kan Windows blokere den.
