@@ -2,7 +2,7 @@
 
 `Ret Tillaeg - 102.xlsm` er en Excel-fil til behandling af tillæg på billede 102 i Silkeborg Løn via IBM Personal Communications.
 
-Denne vejledning beskriver version 1.1.
+Denne vejledning beskriver version 1.3.
 
 Scriptet indeholder ark til både tilføjelse og sletning af tillæg og skriver resultatet til statuskolonnen og logarket.
 
@@ -34,6 +34,7 @@ Workbooken indeholder disse centrale ark:
 | Ark | Formål |
 |---|---|
 | `Batch_tilføj` | Tilføjer tillæg, afvigende oplysninger og tillægstekster på billede 102 |
+| `Batch_ret` | Retter eksisterende tillæg på billede 102 |
 | `Batch_slet` | Sletter tillæg fra billede 102 |
 | `Log` | Viser resultat, fejl og sporbarhed for behandlingen |
 
@@ -45,6 +46,8 @@ Workbooken indeholder disse centrale ark:
 4. Tilføj eller slet tillæg via knappen `Kør`.
 5. Kontroller statuskolonnen. Sort tekst angiver succes, mens rød tekst angiver en fejl. Gennemgå også eventuelle detaljer i `Log`.
 6. Ret fejl i batcharket, og kør behandlingen igen efter behov.
+
+På alle tre batchark stopper både validering og behandling ved den første række med blankt TJNR. Eventuelle udfyldte rækker længere nede behandles ikke.
 
 ## Batch_tilføj
 
@@ -81,6 +84,30 @@ Ved `Kør` opretter scriptet først selve tillægget. Hvis rækken indeholder af
 Ved fuld succes indeholder status normalt `Tillæg skrevet`. Hvis tillægstekster er gemt, tilføjes `Tillægstekster skrevet`.
 
 En fejl under skrivning af afvigende oplysninger eller tillægstekster kan opstå, efter at selve tillægget er oprettet. Kontroller derfor tillægget i lønsystemet, før rækken køres igen.
+
+## Batch_ret
+
+`Batch_ret` retter et eksisterende tillæg. Arket bruger samme kolonner som `Batch_tilføj`, men kolonne C skal indeholde nummeret på det tillæg, der allerede findes og skal rettes.
+
+Kolonne A-C er obligatoriske. Kolonne E bruges til status. Kolonne D og F-K indeholder de ønskede rettelser:
+
+| Kolonne | Felt | Format ved rettelse |
+|---|---|---|
+| D | Beløb | Tal med højst 2 decimaler. Skrives med dansk komma, eksempelvis `123,00`. |
+| F | AFD | Præcis 4 bogstaver eller tal. |
+| G | Enheder | Tal fra 0 til 999,9999. Skrives som `000,0000`, eksempelvis `001,0000`. |
+| H | Navn | Maks. 40 tegn. |
+| I | Begrundelse | Højst 5 linjer med 77 tegn pr. linje efter ordombrydning. |
+| J | Klausul | Højst 3 linjer med 77 tegn pr. linje efter ordombrydning. |
+| K | Bemærkninger | Højst 3 linjer med 77 tegn pr. linje efter ordombrydning. |
+
+En blank celle i kolonne D eller F-K betyder **ingen ændring**. Brug den præcise markør `[RYD]`, hvis et eksisterende felt skal tømmes. Det gælder også beløb, enheder og tekstsektionerne.
+
+Der skal angives mindst én rettelse. Scriptet finder det eksisterende tillæg og åbner `AFVIGENDE TILLÆGSOPL.`. Alle udfyldte rettelser til Beløb, AFD, Enheder og Navn skrives samlet og gemmes med én Enter.
+
+Hvis Begrundelse, Klausul eller Bemærkninger er udfyldt, åbner scriptet derefter `TILLÆGSTEKSTER`. En udfyldt tekstsektion overskrives fuldt, inklusive ubrugte linjer, så rester fra en tidligere længere tekst fjernes. Blanke tekstceller ændrer ikke den eksisterende tekst.
+
+Hvis de afvigende oplysninger er gemt, men en efterfølgende rettelse af tillægstekster fejler, fremgår den delvise gennemførelse af statuskolonnen. Kontroller tillægget i lønsystemet, før rækken køres igen.
 
 ## Batch_slet
 
