@@ -2,7 +2,9 @@
 
 `Ret Tillaeg - 102.xlsm` er en Excel-fil til behandling af tillæg på billede 102 i Silkeborg Løn via IBM Personal Communications.
 
-Denne vejledning beskriver version 1.3.
+Denne vejledning beskriver version 1.3.1.
+
+I version 1.3.1 er debug-trin-dialogerne ved oprettelse af tillægstekster fjernet. Teksterne skrives og gemmes uden løbende debug-popup'er. Almindelige fejlmeddelelser og registrering i statuskolonnen og logarket er bevaret.
 
 Scriptet indeholder ark til både tilføjelse og sletning af tillæg og skriver resultatet til statuskolonnen og logarket.
 
